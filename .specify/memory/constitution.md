@@ -1,50 +1,37 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+# System & LLM Execution Directives
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### 1. Zero Narrative Policy
+Skip all introductory conversational filler, user personas, marketing justifications, and high-level product narratives. Go directly to technical infrastructure contracts, Terraform definitions, Kubernetes manifests, Helm values, and machine-verifiable acceptance criteria.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### 2. Architecture First & Explicit Engineering Contracts
+Use explicit engineering jargon, precise file paths, and exact cloud/infrastructure resource names. Every specification and plan MUST define:
+- Exact Terraform/HCL resource & variable signatures (with types, defaults, and constraints)
+- Exact Kubernetes API versions, CRDs, Helm `values.yaml` schemas, and manifest structures (kubeadm, kubectl, cert-manager, MySQL)
+- Network topologies, security group rules, IAM policies, and storage specifications (EBS/EFS/CSI)
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### 3. Payload & Token Efficiency
+Keep spec, plan, and architecture delta artifacts strictly below 200 lines. Use compact markdown tables, bullet points, and code blocks. Non-frontier and local LLMs (e.g. GLM-4.6, Qwen-Coder) must not experience reasoning degradation from bloated context windows.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### 4. Granular Dependency Tree (Micro-DAG)
+Write `tasks.md` as an acyclic dependency graph (DAG) where every task corresponds to a 1:1 file edit, Terraform module, Kubernetes manifest, or verification step with explicit dependency pointers:
+`- [ ] T001 [Stage] Task description in path/to/file (Depends on Txxx)`
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### 5. Machine-Verifiable Acceptance Gates
+Never use vague adjectives ("robust", "scalable", "fast"). All acceptance criteria MUST be machine-verifiable through automated commands:
+- Terraform validation & plan (`terraform validate`, `terraform plan -detailed-exitcode`)
+- Manifest & chart linting (`helm lint`, `kubectl apply --dry-run=client`, `kubeconform`)
+- Health probes, status rollouts (`kubectl rollout status`, `kubectl wait --for=condition=Ready`)
+- Endpoint & database connectivity checks (TLS handshake via cert-manager, MySQL connection & query exit codes)
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
-
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
-
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
-
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+## Session Isolation Protocol
+When implementing tasks with LLM agents, load only the minimal context payload:
+1. Directive: `.specify/memory/constitution.md`
+2. Active Single Task: Target file, action goal, and exact data/infrastructure contract
+3. Instruction: Output ONLY the implementation code/manifest and verification command. No conversational text outside code blocks.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
+This constitution is the non-negotiable governing standard for all SpecKit artifacts in this repository. All PRs, plans, specifications, and task graphs must strictly adhere to these directives.
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
-
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Version**: 2.0.0 | **Ratified**: 2026-08-31 | **Last Amended**: 2026-08-31
