@@ -4,9 +4,10 @@
 
 ## 1. Technical Scope & Infrastructure Contracts
 
-- **Infrastructure Scope**: [AWS VPC / Subnets / Security Groups / EC2 / ASG / IAM / Storage]
-- **Kubernetes / Cluster Scope**: [kubeadm control-plane / worker nodes / CNI / CSI / Helm releases]
-- **Target Services / Modules**: [cert-manager, MySQL, Ingress Controller, Addons]
+- **Infrastructure Scope**: [AWS VPC / Subnets / Security Groups / EC2 / ASG / IAM / Storage / Route53 DNS]
+- **Kubernetes / Cluster Scope**: [kubeadm control-plane / worker nodes / Flannel CNI / EBS CSI / Helm releases]
+- **Target Services / Modules**: [cert-manager, MySQL, NGINX Ingress Controller, CoreDNS, Cluster Autoscaler]
+- **Security & CI/CD**: [GitHub OIDC trust, AWS Secrets Manager, CloudFormation IAM roles]
 
 ### 1.1 Terraform / HCL Resource Contracts
 ```hcl
@@ -39,12 +40,18 @@ metadata:
   name: [resource-name]
   namespace: [namespace]
 spec:
-  # Exact configuration specs (replicas, storageClass, cert-manager ClusterIssuer, MySQL credentials ref)
+  # Exact configuration specs (replicas, storageClass, cert-manager ClusterIssuer, MySQL credentials ref, Flannel CNI backend)
 ```
 
 ### 1.3 Data & Storage Contracts
 - **StorageClass / PersistentVolumes**: [e.g., EBS gp3 CSI Driver, retain policy, accessMode: ReadWriteOnce]
 - **Database / Schema Migrations**: [e.g., MySQL 8.0, initial DDL/migrations path, Secret refs for credentials]
+- **DNS / Route53**: [Hosted zone IDs, record types (A/CNAME/TXT), TTL values, health checks]
+
+### 1.4 Network & Security Contracts
+- **Flannel CNI Configuration**: [VXLAN backend, network CIDR, VNI, Port]
+- **NGINX Ingress Controller**: [Controller class, TLS termination, annotations, load balancer type]
+- **Security Groups**: [Ingress/egress rules for control-plane (6443), SSH (22), worker node communication]
 
 ## 2. Technical Acceptance Criteria
 

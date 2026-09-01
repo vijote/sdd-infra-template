@@ -8,8 +8,9 @@ Skip all introductory conversational filler, user personas, marketing justificat
 ### 2. Architecture First & Explicit Engineering Contracts
 Use explicit engineering jargon, precise file paths, and exact cloud/infrastructure resource names. Every specification and plan MUST define:
 - Exact Terraform/HCL resource & variable signatures (with types, defaults, and constraints)
-- Exact Kubernetes API versions, CRDs, Helm `values.yaml` schemas, and manifest structures (kubeadm, kubectl, cert-manager, MySQL)
-- Network topologies, security group rules, IAM policies, and storage specifications (EBS/EFS/CSI)
+- Exact Kubernetes API versions, CRDs, Helm `values.yaml` schemas, and manifest structures (kubeadm, kubectl, cert-manager, MySQL, NGINX Ingress, Flannel CNI)
+- Network topologies, security group rules, IAM policies, DNS records (Route53), and storage specifications (EBS/EFS/CSI)
+- AWS Secrets Manager integration and GitHub OIDC trust relationships for CI/CD
 
 ### 3. Payload & Token Efficiency
 Keep spec, plan, and architecture delta artifacts strictly below 200 lines. Use compact markdown tables, bullet points, and code blocks. Non-frontier and local LLMs (e.g. GLM-4.6, Qwen-Coder) must not experience reasoning degradation from bloated context windows.
