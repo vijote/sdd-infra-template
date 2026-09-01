@@ -26,6 +26,12 @@ Never use vague adjectives ("robust", "scalable", "fast"). All acceptance criter
 - Health probes, status rollouts (`kubectl rollout status`, `kubectl wait --for=condition=Ready`)
 - Endpoint & database connectivity checks (TLS handshake via cert-manager, MySQL connection & query exit codes)
 
+### 6. Testing Policy
+- **No Unit Tests**: Do not generate unit test files (e.g., `*_test.go`, `*.spec.ts`, `__tests__/` directories)
+- **No E2E Tests**: Do not generate end-to-end test suites or integration test frameworks
+- **Direct AWS Validation**: All validation is performed directly against AWS infrastructure using native CLI tools and kubectl commands
+- **Context Optimization**: Exclude test generation to minimize context usage for LLM agents
+
 ## Session Isolation Protocol
 When implementing tasks with LLM agents, load only the minimal context payload:
 1. Directive: `.specify/memory/constitution.md`
